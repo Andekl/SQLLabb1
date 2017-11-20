@@ -66,7 +66,12 @@ namespace SQLLabb1
                     {
                         while (reader1.Read())
                         {
-                            BookListBox.Items.Add(reader1.GetString(0));
+                            Book b = new Book();
+                            b.BookId = reader1.GetInt32(0);
+                            b.AuthorID = reader1.GetInt32(1);
+                            b.Title = reader1.GetString(2);
+
+                            BookListBox.Items.Add(b.Title);
                         }
                     }
                 }
