@@ -36,44 +36,6 @@ namespace SQLLabb1
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
-                var query = "SELECT Author FROM Author";
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            AuthorListBox.Items.Add(reader.GetString(0));
-                        }
-                    }
-                }
-            }
-
-
-            //string connectionString1 = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-            //using (SqlConnection con1 = new SqlConnection(connectionString1))
-            //{
-            //    con1.Open();
-            //    var query = "SELECT Book title FROM Book";
-            //    using (SqlCommand cmd = new SqlCommand(query, con1))
-            //    {
-            //        using (SqlDataReader reader1 = cmd.ExecuteReader())  // MÅSTE DÖPA OM COLUMNER SÅ DE EJ HAR MELLANRUM
-            //        {
-            //            while (reader1.Read())
-            //            {
-            //                BookListBox.Items.Add(reader1.GetString(0));
-            //            }
-            //        }
-            //    }
-            //}
-        }
-
-        private void AuthorListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) //Gör samma för BookListBox
-        {
-            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                con.Open();
                 var query = "SELECT * FROM Author";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
@@ -81,20 +43,63 @@ namespace SQLLabb1
                     {
                         while (reader.Read())
                         {
-                            column = new Dictionary<string, string>();
-                            column["Birthday"] = reader["Birthday"].ToString();
-                            column["Id"] = reader["Id"].ToString();
-                            column["Author"] = reader["Author"].ToString();
-
-                            Dispatcher.Invoke(() =>
-                            {
-                                AuthorTextBox.Text = reader.GetString(0);
-                            });
-
+                            Author a = new Author();
+                            a.Id = reader.GetInt32(0);
+                            a.Name = reader.GetString(1);
+                            a.Nationality = reader.GetString(2);
+                            
+                            AuthorListBox.Items.Add(a.Name);
                         }
                     }
                 }
             }
+
+
+            string connectionString1 = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            using (SqlConnection con1 = new SqlConnection(connectionString1))
+            {
+                con1.Open();
+                var query = "SELECT Title FROM Book";
+                using (SqlCommand cmd = new SqlCommand(query, con1))
+                {
+                    using (SqlDataReader reader1 = cmd.ExecuteReader())
+                    {
+                        while (reader1.Read())
+                        {
+                            BookListBox.Items.Add(reader1.GetString(0));
+                        }
+                    }
+                }
+            }
+        }
+
+        private void AuthorListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) //Gör samma för BookListBox
+        {
+            //string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            //using (SqlConnection con = new SqlConnection(connectionString))
+            //{
+            //    con.Open();
+            //    var query = "SELECT * FROM Author";
+            //    using (SqlCommand cmd = new SqlCommand(query, con))
+            //    {
+            //        using (SqlDataReader reader = cmd.ExecuteReader())
+            //        {
+            //            while (reader.Read())
+            //            {
+            //                column = new Dictionary<string, string>();
+            //                column["Nationality"] = reader["Nationality"].ToString();
+            //                column["Id"] = reader["Id"].ToString();
+            //                column["Name"] = reader["Name"].ToString();
+
+            //                Dispatcher.Invoke(() =>
+            //                {
+            //                    AuthorTextBox.Text = reader.GetString(0);
+            //                });
+
+            //            }
+            //        }
+            //    }
+            //}
         }
     }
 }

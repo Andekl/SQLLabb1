@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="517.308" Width="730.128">
     <Grid>
-        <ListBox x:Name="AuthorListBox" HorizontalAlignment="Left" Height="173" Margin="76,57,0,0" VerticalAlignment="Top" Width="240" SelectionChanged="AuthorListBox_SelectionChanged"/>
+        <ListBox x:Name="AuthorListBox" HorizontalAlignment="Left" Height="173" Margin="76,57,0,0" VerticalAlignment="Top" Width="240" SelectionChanged="AuthorListBox_SelectionChanged" IsSynchronizedWithCurrentItem="False"/>
         <ListBox x:Name="BookListBox" HorizontalAlignment="Left" Height="173" Margin="409,57,0,0" VerticalAlignment="Top" Width="240"/>
         <TextBox x:Name="AuthorTextBox" HorizontalAlignment="Left" Height="95" Margin="76,242,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="240"/>
         <TextBox x:Name="BookTextBox" HorizontalAlignment="Left" Height="95" Margin="409,242,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="240"/>
