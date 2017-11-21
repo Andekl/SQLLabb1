@@ -151,7 +151,7 @@ namespace SQLLabb1
                 {
                     comm.Connection = conn;
                     comm.CommandText = cmdString;
-                    Dispatcher.Invoke(() => AuthorIdTextBox);
+                    Dispatcher.Invoke(() => AuthorIdTextBox);//Kommentar
                     comm.Parameters.AddWithValue("@val1", int.TryParse(AuthorIdTextBox.Text));
                     comm.Parameters.AddWithValue("@val2", AuthorNameTextBox.Text);
                     comm.Parameters.AddWithValue("@val3", NationalityTextBox.Text);
