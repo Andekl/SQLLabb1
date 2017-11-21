@@ -48,8 +48,14 @@ namespace SQLLabb1
                             a.Name = reader.GetString(1);
                             a.Nationality = reader.GetString(2);
                             
-                            AuthorListBox.Items.Add(a.Name); 
-                            
+                            AuthorListBox.Items.Add(a.Name);
+
+                            Book b = new Book();
+                            b.BookId = reader.GetInt32(0);
+                           // b.AuthorID = reader.GetInt32(1);
+                            b.Title = reader.GetString(2);
+
+                            BookListBox.Items.Add(b.BookId);
                         }
                     }
                 }
@@ -101,6 +107,34 @@ namespace SQLLabb1
                                 a.Nationality = reader.GetString(2); //hur skriva ut hela objektet här?
 
                             AuthorTextBox.Text = + a.Id + ". " + a.Name + " is a " + a.Nationality + " author. ";
+                        }
+                    }
+                }
+            }
+        }
+
+        private void BookListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var bb = sender as ListBox; // hur få tag på värden?
+            string book = bb.SelectedItem.ToString();
+
+            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                var query = "SELECT * FROM Book where BookId = '" + book + "'";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Book b = new Book(); //varför läses inte detta in?
+                            b.BookId = reader.GetInt32(0);
+                            b.AuthorID = reader.GetInt32(1);
+                            b.Title = reader.GetString(2); //hur skriva ut hela objektet här?
+
+                            BookTextBox.Text = b.BookId + ". Author with ID no: " + b.AuthorID + " has written " + b.Title + ".";
                         }
                     }
                 }
