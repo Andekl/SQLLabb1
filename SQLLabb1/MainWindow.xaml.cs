@@ -32,7 +32,7 @@ namespace SQLLabb1
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                con.Open();
+               con.Open();
                 var query = "SELECT * FROM Author";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
@@ -80,7 +80,7 @@ namespace SQLLabb1
                             a.Name = reader.GetString(1);
                             a.Nationality = reader.GetString(2);
 
-                            IdTextBox.Text = "ID number " + a.Id;
+                            IdTextBox.Text = a.Id.ToString();
                             AuthorNameTextBox.Text = "Authors name is " + a.Name;
                             NationalityTextBox.Text = "Author is " + a.Nationality;
                         }
@@ -143,20 +143,19 @@ namespace SQLLabb1
             //    }
             //}
             #endregion
-            string cmdString = "INSERT INTO Author (AuthorId, Name, Nationality) VALUES (@val1, @val2, @val3)";
+
+            string cmdString = "UPDATE Author SET Name = @val2, Nationality = @val3 WHERE Id=" + IdTextBox.Text;
             string connString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 using (SqlCommand comm = new SqlCommand())
                 {
                     comm.Connection = conn;
                     comm.CommandText = cmdString;
-                    Dispatcher.Invoke(() => AuthorIdTextBox);
-                    comm.Parameters.AddWithValue("@val1", int.TryParse(AuthorIdTextBox.Text));
+                   // Dispatcher.Invoke(() => AuthorIdTextBox);
                     comm.Parameters.AddWithValue("@val2", AuthorNameTextBox.Text);
                     comm.Parameters.AddWithValue("@val3", NationalityTextBox.Text);
-
-                    
 
                     conn.Open();
                     comm.ExecuteNonQuery();
@@ -167,6 +166,11 @@ namespace SQLLabb1
         private void IdTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void AddElementButton_Click(object sender, RoutedEventArgs e)
+        {
+            AuthorIdTextBox.Text = string.Empty;
         }
     }
 }

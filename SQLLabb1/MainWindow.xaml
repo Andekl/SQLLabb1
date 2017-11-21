@@ -9,15 +9,21 @@
     <Grid>
         <ListBox x:Name="AuthorListBox" HorizontalAlignment="Left" Height="173" Margin="76,21,0,0" VerticalAlignment="Top" Width="240" SelectionChanged="AuthorListBox_SelectionChanged" IsSynchronizedWithCurrentItem="False"/>
         <ListBox x:Name="BookListBox" HorizontalAlignment="Left" Height="173" Margin="409,21,0,0" VerticalAlignment="Top" Width="240" SelectionChanged="BookListBox_SelectionChanged"/>
-        <TextBox x:Name="IdTextBox" HorizontalAlignment="Left" Height="31" Margin="76,218,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" GotFocus="IdTextBox_GotFocus" Text="Id key number.."/>
-        <TextBox x:Name="BookIdTextBox" HorizontalAlignment="Left" Height="31" Margin="409,218,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" Text="Book Id number..."/>
+        <TextBox x:Name="IdTextBox" HorizontalAlignment="Left" Height="31" Margin="76,218,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" GotFocus="IdTextBox_GotFocus" IsEnabled="False"/>
+        <TextBox x:Name="BookIdTextBox" HorizontalAlignment="Left" Height="31" Margin="409,218,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" IsEnabled="False"/>
         <Button x:Name="SaveChangesButton" Content="SAVE CHANGES" HorizontalAlignment="Left" Margin="104,382,0,0" VerticalAlignment="Top" Width="120" Height="60" Click="SaveChangesButton_Click"/>
-        <Button x:Name="AddElementButton" Content="ADD ELEMENT" HorizontalAlignment="Left" Margin="298,382,0,0" VerticalAlignment="Top" Width="120" Height="60"/>
+        <Button x:Name="AddElementButton" Content="ADD ELEMENT" HorizontalAlignment="Left" Margin="297,382,0,0" VerticalAlignment="Top" Width="120" Height="60" Click="AddElementButton_Click"/>
         <Button x:Name="DeleteElementButton" Content="DELETE ELEMENT" HorizontalAlignment="Left" Margin="488,382,0,0" VerticalAlignment="Top" Width="120" Height="60"/>
-        <TextBox x:Name="AuthorNameTextBox" HorizontalAlignment="Left" Height="29" Margin="76,276,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" Text="Author name.."/>
-        <TextBox x:Name="NationalityTextBox" HorizontalAlignment="Left" Height="30" Margin="76,335,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" Text="Authors nationality.."/>
-        <TextBox x:Name="AuthorIdTextBox" HorizontalAlignment="Left" Height="29" Margin="409,276,0,0" TextWrapping="Wrap" Text="Author Id number.." VerticalAlignment="Top" Width="240"/>
-        <TextBox x:Name="TitleTextBox" HorizontalAlignment="Left" Height="30" Margin="409,335,0,0" TextWrapping="Wrap" Text="Book title.." VerticalAlignment="Top" Width="240"/>
+        <TextBox x:Name="AuthorNameTextBox" HorizontalAlignment="Left" Height="29" Margin="76,276,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240"/>
+        <TextBox x:Name="NationalityTextBox" HorizontalAlignment="Left" Height="30" Margin="76,335,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240"/>
+        <TextBox x:Name="AuthorIdTextBox" HorizontalAlignment="Left" Height="29" Margin="409,276,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240"/>
+        <TextBox x:Name="TitleTextBox" HorizontalAlignment="Left" Height="30" Margin="409,335,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240"/>
+        <Label Content="ID" HorizontalAlignment="Left" Margin="76,192,0,0" VerticalAlignment="Top" Width="127"/>
+        <Label Content="Author name:" HorizontalAlignment="Left" Margin="76,254,0,0" VerticalAlignment="Top" Width="114"/>
+        <Label Content="Authors nationality:" HorizontalAlignment="Left" Margin="76,310,0,0" VerticalAlignment="Top" Width="148"/>
+        <Label Content="Book ID:" HorizontalAlignment="Left" Margin="409,194,0,0" VerticalAlignment="Top" Width="182"/>
+        <Label Content="Author Id number:" HorizontalAlignment="Left" Margin="409,254,0,0" VerticalAlignment="Top" Width="135"/>
+        <Label Content="Book title:" HorizontalAlignment="Left" Margin="409,310,0,0" VerticalAlignment="Top" Width="135"/>
 
     </Grid>
 </Window>
