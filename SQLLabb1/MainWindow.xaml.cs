@@ -48,7 +48,7 @@ namespace SQLLabb1
                             a.Name = reader.GetString(1);
                             a.Nationality = reader.GetString(2);
                             
-                            AuthorListBox.Items.Add(a.Name);
+                            AuthorListBox.Items.Add(a.Name); 
                             
                         }
                     }
@@ -81,7 +81,7 @@ namespace SQLLabb1
 
         private void AuthorListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) //Gör samma för BookListBox
         {
-            var aa = sender as ListBox;
+            var aa = sender as ListBox; // hur få tag på värden?
             string author = aa.SelectedItem.ToString();
             
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
@@ -95,12 +95,12 @@ namespace SQLLabb1
                     {
                         while (reader.Read())
                         {
-                                Author a = new Author();
+                                Author a = new Author(); //varför läses inte detta in?
                                 a.Id = reader.GetInt32(0);
                                 a.Name = reader.GetString(1);
-                                a.Nationality = reader.GetString(2);
+                                a.Nationality = reader.GetString(2); //hur skriva ut hela objektet här?
 
-                            AuthorTextBox.Text = "ID: " + a.Id + ", Name: " + a.Name + ", Nationality: " + a.Nationality;
+                            AuthorTextBox.Text = + a.Id + ". " + a.Name + " is a " + a.Nationality + " author. ";
                         }
                     }
                 }
