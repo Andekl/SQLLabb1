@@ -14,7 +14,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.Sql;
-using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Data;
 using System.Threading;
@@ -122,6 +121,7 @@ namespace SQLLabb1
 
         private void SaveChangesButton_Click(object sender, RoutedEventArgs e)
         {
+            #region Gammal kod
             //int index = AuthorListBox.SelectedIndex;
             //AuthorListBox.Items.RemoveAt(AuthorListBox.SelectedIndex);
             //AuthorListBox.Items.Insert(index, (new Author { author = AuthorTextBox.Text }));
@@ -142,6 +142,26 @@ namespace SQLLabb1
             //        }
             //    }
             //}
+            #endregion
+            string cmdString = "INSERT INTO Author (AuthorId, Name, Nationality) VALUES (@val1, @val2, @val3)";
+            string connString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                using (SqlCommand comm = new SqlCommand())
+                {
+                    comm.Connection = conn;
+                    comm.CommandText = cmdString;
+                    Dispatcher.Invoke(() => AuthorIdTextBox);
+                    comm.Parameters.AddWithValue("@val1", int.TryParse(AuthorIdTextBox.Text));
+                    comm.Parameters.AddWithValue("@val2", AuthorNameTextBox.Text);
+                    comm.Parameters.AddWithValue("@val3", NationalityTextBox.Text);
+
+                    
+
+                    conn.Open();
+                    comm.ExecuteNonQuery();
+                }
+            }
         }
 
         private void IdTextBox_GotFocus(object sender, RoutedEventArgs e)
