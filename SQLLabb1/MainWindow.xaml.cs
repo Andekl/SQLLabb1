@@ -25,9 +25,6 @@ namespace SQLLabb1
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<Dictionary<string, string>> rows = new List<Dictionary<string, string>>();
-        Dictionary<string, string> column;
-
         public MainWindow()
         {
             InitializeComponent();
@@ -55,37 +52,14 @@ namespace SQLLabb1
                            // b.AuthorID = reader.GetInt32(1);
                             b.Title = reader.GetString(2);
 
-                            BookListBox.Items.Add(b.BookId);
+                            BookListBox.Items.Add(b.Title);
                         }
                     }
                 }
             }
-
-
-            //string connectionString1 = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-            //using (SqlConnection con1 = new SqlConnection(connectionString1))
-            //{
-            //    con1.Open();
-            //    var query = "SELECT Title FROM Book";
-            //    using (SqlCommand cmd = new SqlCommand(query, con1))
-            //    {
-            //        using (SqlDataReader reader1 = cmd.ExecuteReader())
-            //        {
-            //            while (reader1.Read())
-            //            {
-            //                Book b = new Book();
-            //                b.BookId = reader1.GetInt32(0);
-            //                b.AuthorID = reader1.GetInt32(1);
-            //                b.Title = reader1.GetString(2);
-
-            //                BookListBox.Items.Add(b.Title);
-            //            }
-            //        }
-            //    }
-            //}
         }
 
-        private void AuthorListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) //Gör samma för BookListBox
+        private void AuthorListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var aa = sender as ListBox; // hur få tag på värden?
             string author = aa.SelectedItem.ToString();
@@ -115,7 +89,7 @@ namespace SQLLabb1
 
         private void BookListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var bb = sender as ListBox; // hur få tag på värden?
+            var bb = sender as ListBox;
             string book = bb.SelectedItem.ToString();
 
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
@@ -129,16 +103,45 @@ namespace SQLLabb1
                     {
                         while (reader.Read())
                         {
-                            Book b = new Book(); //varför läses inte detta in?
+                            Book b = new Book();
                             b.BookId = reader.GetInt32(0);
                             b.AuthorID = reader.GetInt32(1);
-                            b.Title = reader.GetString(2); //hur skriva ut hela objektet här?
+                            b.Title = reader.GetString(2);
 
                             BookTextBox.Text = b.BookId + ". Author with ID no: " + b.AuthorID + " has written " + b.Title + ".";
                         }
                     }
                 }
             }
+        }
+
+        private void SaveChangesButton_Click(object sender, RoutedEventArgs e)
+        {
+            //int index = AuthorListBox.SelectedIndex;
+            //AuthorListBox.Items.RemoveAt(AuthorListBox.SelectedIndex);
+            //AuthorListBox.Items.Insert(index, (new Author { author = AuthorTextBox.Text }));
+
+            //string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            //using (SqlConnection con = new SqlConnection(connectionString))
+            //{
+            //    con.Open();
+            //    var query = "UPDATE * SET Book where BookId = '" +  + "'";
+            //    using (SqlCommand cmd = new SqlCommand(query, con))
+            //    {
+            //        using (SqlDataReader reader = cmd.ExecuteReader())
+            //        {
+            //            while (reader.Read())
+            //            {
+
+            //            }
+            //        }
+            //    }
+            //}
+        }
+
+        private void AuthorTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+           // AuthorTextBox.Text = string.Empty;    //tar bort all text i textboxen.
         }
     }
 }

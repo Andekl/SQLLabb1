@@ -9,9 +9,9 @@
     <Grid>
         <ListBox x:Name="AuthorListBox" HorizontalAlignment="Left" Height="173" Margin="76,57,0,0" VerticalAlignment="Top" Width="240" SelectionChanged="AuthorListBox_SelectionChanged" IsSynchronizedWithCurrentItem="False"/>
         <ListBox x:Name="BookListBox" HorizontalAlignment="Left" Height="173" Margin="409,57,0,0" VerticalAlignment="Top" Width="240" SelectionChanged="BookListBox_SelectionChanged"/>
-        <TextBox x:Name="AuthorTextBox" HorizontalAlignment="Left" Height="95" Margin="76,242,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="240"/>
-        <TextBox x:Name="BookTextBox" HorizontalAlignment="Left" Height="95" Margin="409,242,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="240"/>
-        <Button x:Name="SaveChangesButton" Content="SAVE CHANGES" HorizontalAlignment="Left" Margin="104,382,0,0" VerticalAlignment="Top" Width="120" Height="60"/>
+        <TextBox x:Name="AuthorTextBox" HorizontalAlignment="Left" Height="95" Margin="76,242,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" GotFocus="AuthorTextBox_GotFocus"/>
+        <TextBox x:Name="BookTextBox" HorizontalAlignment="Left" Height="95" Margin="409,242,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240"/>
+        <Button x:Name="SaveChangesButton" Content="SAVE CHANGES" HorizontalAlignment="Left" Margin="104,382,0,0" VerticalAlignment="Top" Width="120" Height="60" Click="SaveChangesButton_Click"/>
         <Button x:Name="AddElementButton" Content="ADD ELEMENT" HorizontalAlignment="Left" Margin="298,382,0,0" VerticalAlignment="Top" Width="120" Height="60"/>
         <Button x:Name="DeleteElementButton" Content="DELETE ELEMENT" HorizontalAlignment="Left" Margin="488,382,0,0" VerticalAlignment="Top" Width="120" Height="60"/>
 
