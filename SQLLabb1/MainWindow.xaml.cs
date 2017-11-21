@@ -17,6 +17,7 @@ using System.Data.Sql;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Data;
+using System.Threading;
 
 namespace SQLLabb1
 {
@@ -44,12 +45,12 @@ namespace SQLLabb1
                             a.Id = reader.GetInt32(0);
                             a.Name = reader.GetString(1);
                             a.Nationality = reader.GetString(2);
-                            
+
                             AuthorListBox.Items.Add(a.Name);
 
                             Book b = new Book();
                             b.BookId = reader.GetInt32(0);
-                           // b.AuthorID = reader.GetInt32(1);
+                            //b.AuthorID = reader.GetInt32(1);
                             b.Title = reader.GetString(2);
 
                             BookListBox.Items.Add(b.BookId);
@@ -63,7 +64,7 @@ namespace SQLLabb1
         {
             var aa = sender as ListBox;
             string author = aa.SelectedItem.ToString();
-            
+
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -75,12 +76,14 @@ namespace SQLLabb1
                     {
                         while (reader.Read())
                         {
-                                Author a = new Author(); 
-                                a.Id = reader.GetInt32(0);
-                                a.Name = reader.GetString(1);
-                                a.Nationality = reader.GetString(2); 
+                            Author a = new Author();
+                            a.Id = reader.GetInt32(0);
+                            a.Name = reader.GetString(1);
+                            a.Nationality = reader.GetString(2);
 
-                            AuthorTextBox.Text = + a.Id + ". " + a.Name + " is a " + a.Nationality + " author. ";
+                            IdTextBox.Text = "ID number " + a.Id;
+                            AuthorNameTextBox.Text = "Authors name is " + a.Name;
+                            NationalityTextBox.Text = "Author is " + a.Nationality;
                         }
                     }
                 }
@@ -108,7 +111,9 @@ namespace SQLLabb1
                             b.AuthorID = reader.GetInt32(1);
                             b.Title = reader.GetString(2);
 
-                            BookTextBox.Text = b.BookId + ". Author with ID no: " + b.AuthorID + " has written " + b.Title + ".";
+                            BookIdTextBox.Text = "Book has ID number " + b.BookId;
+                            AuthorIdTextBox.Text = "Author has ID number " + b.AuthorID;
+                            TitleTextBox.Text = "The title is " + "''" + b.Title +"''";
                         }
                     }
                 }
@@ -139,9 +144,9 @@ namespace SQLLabb1
             //}
         }
 
-        private void AuthorTextBox_GotFocus(object sender, RoutedEventArgs e)
+        private void IdTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-           // AuthorTextBox.Text = string.Empty;    //tar bort all text i textboxen.
+
         }
     }
 }
