@@ -31,7 +31,7 @@ namespace SQLLabb1
             GetData();
         }
 
-            public void GetData()
+        public void GetData()
         {
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -123,31 +123,33 @@ namespace SQLLabb1
             }
         }
 
-        private void SaveChangesButton_Click(object sender, RoutedEventArgs e) 
+        private void SaveChangesButton_Click(object sender, RoutedEventArgs e)
         {
-            #region Gammal kod
-            //int index = AuthorListBox.SelectedIndex;
-            //AuthorListBox.Items.RemoveAt(AuthorListBox.SelectedIndex);
-            //AuthorListBox.Items.Insert(index, (new Author { author = AuthorTextBox.Text }));
+            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
 
-            //string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-            //using (SqlConnection con = new SqlConnection(connectionString))
-            //{
-            //    con.Open();
-            //    var query = "UPDATE * SET Book where BookId = '" +  + "'";
-            //    using (SqlCommand cmd = new SqlCommand(query, con))
-            //    {
-            //        using (SqlDataReader reader = cmd.ExecuteReader())
-            //        {
-            //            while (reader.Read())
-            //            {
+                    string query = "UPDATE Author SET AuthorId = '" + IdTextBox.Text + "' ," +
+                         " Name = '" + AuthorNameTextBox.Text + "', Nationality = '" + NationalityTextBox.Text +
+                         "' WHERE AuthorId = '" + IdTextBox.Text + "' ";
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.ExecuteNonQuery();
+                    MessageBox.Show("Author has been updated!");
+                    GetData();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
 
-            //            }
-            //        }
-            //    }
-            //}
-            #endregion
-            
+            }
             #region
             //string cmdString = "UPDATE Author SET Name = @val2, Nationality = @val3, AuthorId = @val1 WHERE AuhorId=" + IdTextBox.Text;
             //string connString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
@@ -180,8 +182,8 @@ namespace SQLLabb1
                     connection.Open();
 
                     string query = "UPDATE Book SET BookId = '" + BookIdTextBox.Text + "' ," +
-                        " AuthorID = '" + AuthorIdTextBox.Text + "', Title = '" + TitleTextBox.Text +
-                        "' WHERE BookId = '" + BookIdTextBox.Text + "' ";
+                         " AuthorID = '" + AuthorIdTextBox.Text + "', Title = '" + TitleTextBox.Text +
+                         "' WHERE BookId = '" + BookIdTextBox.Text + "' ";
                     SqlCommand command = new SqlCommand(query, connection);
                     command.ExecuteNonQuery();
                     MessageBox.Show("Book has been updated!");
@@ -193,7 +195,8 @@ namespace SQLLabb1
                 finally
                 {
                     connection.Close();
-                }              
+                }
+
             }
             GetData();
         }
@@ -212,7 +215,7 @@ namespace SQLLabb1
                         "' WHERE AuthorId = '" + IdTextBox.Text + "' ";
                     SqlCommand command = new SqlCommand(query, connection);
                     command.ExecuteNonQuery();
-                    MessageBox.Show("A new Author has need created!");
+                    MessageBox.Show("A new Author has been created!");
                 }
                 catch (Exception ex)
                 {
