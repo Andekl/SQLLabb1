@@ -28,7 +28,11 @@ namespace SQLLabb1
         public MainWindow()
         {
             InitializeComponent();
+            GetData();
+        }
 
+            public void GetData()
+        {
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -189,9 +193,9 @@ namespace SQLLabb1
                 finally
                 {
                     connection.Close();
-                }
-
+                }              
             }
+            GetData();
         }
 
         private void AddAuthorButton_Click(object sender, RoutedEventArgs e)
@@ -218,8 +222,8 @@ namespace SQLLabb1
                 {
                     connection.Close();
                 }
-
             }
+            GetData();
         }
 
         private void AddBookButton_Click(object sender, RoutedEventArgs e)
@@ -275,7 +279,6 @@ namespace SQLLabb1
                 {
                     connection.Close();
                 }
-
             }
         }
 
