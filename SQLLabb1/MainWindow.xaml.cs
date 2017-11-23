@@ -144,16 +144,17 @@ namespace SQLLabb1
             //}
             #endregion
 
-            string cmdString = "UPDATE Author SET Name = @val2, Nationality = @val3 WHERE Id=" + IdTextBox.Text;
+            string cmdString = "UPDATE Author SET Name = @val2, Nationality = @val3, AuthorId = @val1 WHERE AuhorId=" + IdTextBox.Text;
             string connString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
             using (SqlConnection conn = new SqlConnection(connString))
             {
-                using (SqlCommand comm = new SqlCommand())
+                using (SqlCommand comm = new SqlCommand(cmdString, conn))
                 {
                     comm.Connection = conn;
                     comm.CommandText = cmdString;
-                   // Dispatcher.Invoke(() => AuthorIdTextBox);
+                    // Dispatcher.Invoke(() => AuthorIdTextBox);
+                    comm.Parameters.AddWithValue("@val1", IdTextBox.Text);
                     comm.Parameters.AddWithValue("@val2", AuthorNameTextBox.Text);
                     comm.Parameters.AddWithValue("@val3", NationalityTextBox.Text);
 
