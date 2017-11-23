@@ -13,7 +13,7 @@
         <TextBox x:Name="BookIdTextBox" HorizontalAlignment="Left" Height="31" Margin="409,218,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" IsEnabled="False"/>
         <Button x:Name="SaveChangesButton" Content="SAVE AUTHOR&#xD;&#xA;CHANGES" HorizontalAlignment="Left" Margin="125,370,0,0" VerticalAlignment="Top" Width="113" Height="50" Click="SaveChangesButton_Click"/>
         <Button x:Name="AddAuthorButton" Content="ADD AUTHOR" HorizontalAlignment="Left" Margin="62,428,0,0" VerticalAlignment="Top" Width="109" Height="50" Click="AddAuthorButton_Click"/>
-        <Button x:Name="DeleteAuthortButton" Content="DELETE AUTHOR" HorizontalAlignment="Left" Margin="188,428,0,0" VerticalAlignment="Top" Width="118" Height="50" IsEnabled="False"/>
+        <Button x:Name="DeleteAuthortButton" Content="DELETE AUTHOR" HorizontalAlignment="Left" Margin="188,428,0,0" VerticalAlignment="Top" Width="118" Height="50" IsEnabled="False" Click="DeleteAuthortButton_Click"/>
         <TextBox x:Name="AuthorNameTextBox" HorizontalAlignment="Left" Height="29" Margin="76,276,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240"/>
         <TextBox x:Name="NationalityTextBox" HorizontalAlignment="Left" Height="30" Margin="76,335,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240"/>
         <TextBox x:Name="AuthorIdTextBox" HorizontalAlignment="Left" Height="29" Margin="409,276,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" IsEnabled="False"/>
@@ -26,7 +26,7 @@
         <Label Content="Book title:" HorizontalAlignment="Left" Margin="409,310,0,0" VerticalAlignment="Top" Width="135"/>
         <Button x:Name="SaveChangesBookButton" Content="SAVE CHANGES &#xD;&#xA;BOOK" HorizontalAlignment="Left" Margin="472,371,0,0" VerticalAlignment="Top" Width="101" Height="50" Click="SaveChangesBookButton_Click"/>
         <Button x:Name="AddBookButton" Content="ADD BOOK" HorizontalAlignment="Left" Margin="409,428,0,0" VerticalAlignment="Top" Width="110" Height="50" Click="AddBookButton_Click"/>
-        <Button x:Name="DeleteBookButton" Content="DELETE BOOK" HorizontalAlignment="Left" Margin="535,428,0,0" VerticalAlignment="Top" Width="114" Height="50" IsEnabled="False"/>
+        <Button x:Name="DeleteBookButton" Content="DELETE BOOK" HorizontalAlignment="Left" Margin="535,428,0,0" VerticalAlignment="Top" Width="114" Height="50" IsEnabled="False" Click="DeleteBookButton_Click"/>
 
     </Grid>
 </Window>

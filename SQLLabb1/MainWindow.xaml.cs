@@ -250,5 +250,62 @@ namespace SQLLabb1
                 }
             }
         }
+
+        private void DeleteAuthortButton_Click(object sender, RoutedEventArgs e)
+        {
+            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    string query = "DELETE Author FROM AuthorId = '" + IdTextBox.Text + "' ," + //hur skriva denna query?
+                        " Name = '" + AuthorNameTextBox.Text + "', Nationality = '" + NationalityTextBox.Text +
+                        "' WHERE AuthorId = '" + IdTextBox.Text + "' ";
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.ExecuteNonQuery();
+                    MessageBox.Show("A new Author has need created!");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+            }
+        }
+
+        private void DeleteBookButton_Click(object sender, RoutedEventArgs e)
+        {
+            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                var query = "DELETE Book FROM BookId = '" + BookIdTextBox.Text + "' ," +
+                        " AuthorID = '" + AuthorIdTextBox.Text + "', Title = '" + TitleTextBox.Text +
+                        "' WHERE BookId = '" + BookIdTextBox.Text + "' ";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Book b = new Book();
+                            b.BookId = reader.GetInt32(0);
+                            b.AuthorID = reader.GetInt32(1);
+                            b.Title = reader.GetString(2);
+
+                            BookIdTextBox.Text = b.BookId.ToString();
+                            AuthorIdTextBox.Text = b.AuthorID.ToString();
+                            TitleTextBox.Text = b.Title;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
