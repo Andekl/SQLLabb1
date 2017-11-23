@@ -28,10 +28,11 @@ namespace SQLLabb1
         public MainWindow()
         {
             InitializeComponent();
-            GetData();
+            GetAuthorData();
+            GetBookData();
         }
 
-        public void GetData()
+        public void GetAuthorData()
         {
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -51,6 +52,30 @@ namespace SQLLabb1
 
                             AuthorListBox.Items.Add(a.Name);
 
+                            //Book b = new Book();
+                            //b.BookId = reader.GetInt32(0);
+                            ////b.AuthorID = reader.GetInt32(1);
+                            //b.Title = reader.GetString(2);
+
+                            //BookListBox.Items.Add(b.BookId);
+                        }
+                    }
+                }
+            }
+        }
+        public void GetBookData()
+        {
+            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                var query = "SELECT * FROM Book";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
                             Book b = new Book();
                             b.BookId = reader.GetInt32(0);
                             //b.AuthorID = reader.GetInt32(1);
@@ -66,15 +91,15 @@ namespace SQLLabb1
         private void AuthorListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var aa = sender as ListBox;
-            string author = aa.SelectedItem.ToString();
-
-            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-            using (SqlConnection con = new SqlConnection(connectionString))
+            if (aa.SelectedItem != null)
             {
-                con.Open();
-                var query = "SELECT * FROM Author where Name = '" + author + "'";
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                string author = aa.SelectedItem.ToString();
+                string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+                using (SqlConnection con = new SqlConnection(connectionString))
                 {
+                    con.Open();
+                    var query = "SELECT * FROM Author where Name = '" + author + "'";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
@@ -96,15 +121,16 @@ namespace SQLLabb1
         private void BookListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var bb = sender as ListBox;
-            string book = bb.SelectedItem.ToString();
-
-            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-            using (SqlConnection con = new SqlConnection(connectionString))
+            if (bb.SelectedItem != null)
             {
-                con.Open();
-                var query = "SELECT * FROM Book where BookId = '" + book + "'";
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                string book = bb.SelectedItem.ToString();
+
+                string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+                using (SqlConnection con = new SqlConnection(connectionString))
                 {
+                    con.Open();
+                    var query = "SELECT * FROM Book where BookId = '" + book + "'";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
@@ -135,10 +161,16 @@ namespace SQLLabb1
                     string query = "UPDATE Author SET AuthorId = '" + IdTextBox.Text + "' ," +
                          " Name = '" + AuthorNameTextBox.Text + "', Nationality = '" + NationalityTextBox.Text +
                          "' WHERE AuthorId = '" + IdTextBox.Text + "' ";
+
                     SqlCommand command = new SqlCommand(query, connection);
                     command.ExecuteNonQuery();
                     MessageBox.Show("Author has been updated!");
-                    GetData();
+
+                    GetAuthorData();
+
+                    AuthorListBox.Items.RemoveAt(0);
+                    AuthorListBox.Items.RemoveAt(0);
+                    AuthorListBox.Items.RemoveAt(0);
                 }
                 catch (Exception ex)
                 {
@@ -187,6 +219,13 @@ namespace SQLLabb1
                     SqlCommand command = new SqlCommand(query, connection);
                     command.ExecuteNonQuery();
                     MessageBox.Show("Book has been updated!");
+
+                    GetBookData();
+
+                    BookListBox.Items.RemoveAt(0);
+                    BookListBox.Items.RemoveAt(0);
+                    BookListBox.Items.RemoveAt(0);
+                    BookListBox.Items.RemoveAt(0);
                 }
                 catch (Exception ex)
                 {
@@ -196,9 +235,7 @@ namespace SQLLabb1
                 {
                     connection.Close();
                 }
-
             }
-            GetData();
         }
 
         private void AddAuthorButton_Click(object sender, RoutedEventArgs e)
@@ -226,7 +263,6 @@ namespace SQLLabb1
                     connection.Close();
                 }
             }
-            GetData();
         }
 
         private void AddBookButton_Click(object sender, RoutedEventArgs e)
