@@ -40,25 +40,16 @@ namespace SQLLabb1
                 con.Open();
                 var query = "SELECT * FROM Author";
                 using (SqlCommand cmd = new SqlCommand(query, con))
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    while (reader.Read())
                     {
-                        while (reader.Read())
-                        {
-                            Author a = new Author();
-                            a.Id = reader.GetInt32(0);
-                            a.Name = reader.GetString(1);
-                            a.Nationality = reader.GetString(2);
+                        Author a = new Author();
+                        a.Id = reader.GetInt32(0);
+                        a.Name = reader.GetString(1);
+                        a.Nationality = reader.GetString(2);
 
-                            AuthorListBox.Items.Add(a.Name);
-
-                            //Book b = new Book();
-                            //b.BookId = reader.GetInt32(0);
-                            ////b.AuthorID = reader.GetInt32(1);
-                            //b.Title = reader.GetString(2);
-
-                            //BookListBox.Items.Add(b.BookId);
-                        }
+                        AuthorListBox.Items.Add(a.Name);
                     }
                 }
             }
@@ -71,18 +62,16 @@ namespace SQLLabb1
                 con.Open();
                 var query = "SELECT * FROM Book";
                 using (SqlCommand cmd = new SqlCommand(query, con))
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    while (reader.Read())
                     {
-                        while (reader.Read())
-                        {
-                            Book b = new Book();
-                            b.BookId = reader.GetInt32(0);
-                            //b.AuthorID = reader.GetInt32(1);
-                            b.Title = reader.GetString(2);
+                        Book b = new Book();
+                        b.BookId = reader.GetInt32(0);
+                        //b.AuthorID = reader.GetInt32(1);
+                        b.Title = reader.GetString(2);
 
-                            BookListBox.Items.Add(b.BookId);
-                        }
+                        BookListBox.Items.Add(b.BookId);
                     }
                 }
             }
@@ -240,6 +229,7 @@ namespace SQLLabb1
 
         private void AddAuthorButton_Click(object sender, RoutedEventArgs e)
         {
+
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
