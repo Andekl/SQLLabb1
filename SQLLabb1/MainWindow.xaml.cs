@@ -147,9 +147,7 @@ namespace SQLLabb1
                 {
                     connection.Open();
 
-                    string query = "UPDATE Author SET AuthorId = '" + IdTextBox.Text + "' ," +
-                         " Name = '" + AuthorNameTextBox.Text + "', Nationality = '" + NationalityTextBox.Text +
-                         "' WHERE AuthorId = '" + IdTextBox.Text + "' ";
+                    string query = "UPDATE Author SET AuthorId = '" + IdTextBox.Text + "' ," + " Name = '" + AuthorNameTextBox.Text + "', Nationality = '" + NationalityTextBox.Text + "' WHERE AuthorId = '" + IdTextBox.Text + "' ";
 
                     SqlCommand command = new SqlCommand(query, connection);
                     command.ExecuteNonQuery();
@@ -157,9 +155,10 @@ namespace SQLLabb1
 
                     GetAuthorData();
 
-                    AuthorListBox.Items.RemoveAt(0);
-                    AuthorListBox.Items.RemoveAt(0);
-                    AuthorListBox.Items.RemoveAt(0);
+                    for (int i = 0; i < AuthorListBox.Items.Count; i++)
+                    {
+                        AuthorListBox.Items.RemoveAt(0);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -202,19 +201,17 @@ namespace SQLLabb1
                 {
                     connection.Open();
 
-                    string query = "UPDATE Book SET BookId = '" + BookIdTextBox.Text + "' ," +
-                         " AuthorID = '" + AuthorIdTextBox.Text + "', Title = '" + TitleTextBox.Text +
-                         "' WHERE BookId = '" + BookIdTextBox.Text + "' ";
+                    string query = "UPDATE Book SET BookId = '" + BookIdTextBox.Text + "' ," + " AuthorID = '" + AuthorIdTextBox.Text + "', Title = '" + TitleTextBox.Text + "' WHERE BookId = '" + BookIdTextBox.Text + "' ";
                     SqlCommand command = new SqlCommand(query, connection);
                     command.ExecuteNonQuery();
                     MessageBox.Show("Book has been updated!");
 
                     GetBookData();
 
-                    BookListBox.Items.RemoveAt(0);
-                    BookListBox.Items.RemoveAt(0);
-                    BookListBox.Items.RemoveAt(0);
-                    BookListBox.Items.RemoveAt(0);
+                    for (int i = 0; i < BookListBox.Items.Count; i++)
+                    {
+                        BookListBox.Items.RemoveAt(0);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -226,23 +223,57 @@ namespace SQLLabb1
                 }
             }
         }
-
+        private string MaxAuthorValue()
+        {
+            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                    connection.Open();
+                    string maxQuery = "SELECT MAX(AuthorId) FROM Author";
+                    SqlCommand command = new SqlCommand(maxQuery, connection);
+                    command.ExecuteScalar();
+                    command.ExecuteNonQuery();
+                    return maxQuery += 1;
+            }
+        }
+        private string MaxBookValue()
+        {
+            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string maxQuery = "SELECT MAX(AuthorId) FROM Book";
+                SqlCommand command = new SqlCommand(maxQuery, connection);
+                command.ExecuteScalar();
+                command.ExecuteNonQuery();
+                return maxQuery += 1;
+            }
+        }
         private void AddAuthorButton_Click(object sender, RoutedEventArgs e)
         {
-
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
                 {
                     connection.Open();
-
-                    string query = "INSERT INTO Author VALUES AuthorId = '" + IdTextBox.Text + "' ," + //hur skriva denna query?
-                        " Name = '" + AuthorNameTextBox.Text + "', Nationality = '" + NationalityTextBox.Text +
-                        "' WHERE AuthorId = '" + IdTextBox.Text + "' ";
+                    //string maxQuery = "SELECT MAX(AuthorId) FROM Author";
+                    string query = "INSERT INTO Author (AuthorId, Name, Nationality) VALUES (@AuthorId, @Name, @Nationality)";
                     SqlCommand command = new SqlCommand(query, connection);
+                   // SqlCommand newCommand = new SqlCommand(maxQuery, connection);
+                    command.Parameters.AddWithValue("AuthorId", IdTextBox.Text);
+                    command.Parameters.AddWithValue("Name", AuthorNameTextBox.Text);
+                    command.Parameters.AddWithValue("Nationality", NationalityTextBox.Text);
                     command.ExecuteNonQuery();
                     MessageBox.Show("A new Author has been created!");
+                    MaxAuthorValue();
+
+                    GetAuthorData();
+                    for (int i = 0; i < AuthorListBox.Items.Count; i++)
+                    {
+                        AuthorListBox.Items.RemoveAt(0);
+                    }
+
                 }
                 catch (Exception ex)
                 {
@@ -258,28 +289,36 @@ namespace SQLLabb1
         private void AddBookButton_Click(object sender, RoutedEventArgs e)
         {
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                con.Open();
-                var query = "INSERT INTO Book VALUES BookId = '" + BookIdTextBox.Text + "' ," +
-                        " AuthorID = '" + AuthorIdTextBox.Text + "', Title = '" + TitleTextBox.Text +
-                        "' WHERE BookId = '" + BookIdTextBox.Text + "' ";
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                try
                 {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            Book b = new Book();
-                            b.BookId = reader.GetInt32(0);
-                            b.AuthorID = reader.GetInt32(1);
-                            b.Title = reader.GetString(2);
+                    connection.Open();
 
-                            BookIdTextBox.Text = b.BookId.ToString();
-                            AuthorIdTextBox.Text = b.AuthorID.ToString();
-                            TitleTextBox.Text = b.Title;
-                        }
+                    string query = "INSERT INTO Book (BookId, AuthorID, Title) VALUES (@BookId, @AuthorID, @Title)";
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("BookId", BookIdTextBox.Text);
+                    command.Parameters.AddWithValue("AuthorID", AuthorIdTextBox.Text);
+                    command.Parameters.AddWithValue("Title", TitleTextBox.Text);
+                    command.ExecuteNonQuery();
+                    MessageBox.Show("A new Book has been created!");
+                    MaxBookValue();
+
+                    GetBookData();
+
+                    for (int i = 0; i < BookListBox.Items.Count; i++)
+                    {
+                        BookListBox.Items.RemoveAt(0);
                     }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
                 }
             }
         }
@@ -292,13 +331,17 @@ namespace SQLLabb1
                 try
                 {
                     connection.Open();
-
-                    string query = "DELETE Author FROM AuthorId = '" + IdTextBox.Text + "' ," + //hur skriva denna query?
-                        " Name = '" + AuthorNameTextBox.Text + "', Nationality = '" + NationalityTextBox.Text +
-                        "' WHERE AuthorId = '" + IdTextBox.Text + "' ";
+                    string query = "DELETE FROM Author WHERE Name = '" + AuthorListBox.SelectedItem + "' ";
                     SqlCommand command = new SqlCommand(query, connection);
                     command.ExecuteNonQuery();
-                    MessageBox.Show("A new Author has need created!");
+                    MessageBox.Show("The Author has been deleted!");
+
+                    GetAuthorData();
+                    for (int i = 0; i < AuthorListBox.Items.Count; i++)
+                    {
+                        AuthorListBox.Items.RemoveAt(0);
+                    }
+
                 }
                 catch (Exception ex)
                 {
@@ -314,28 +357,30 @@ namespace SQLLabb1
         private void DeleteBookButton_Click(object sender, RoutedEventArgs e)
         {
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                con.Open();
-                var query = "DELETE Book FROM BookId = '" + BookIdTextBox.Text + "' ," +
-                        " AuthorID = '" + AuthorIdTextBox.Text + "', Title = '" + TitleTextBox.Text +
-                        "' WHERE BookId = '" + BookIdTextBox.Text + "' ";
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                try
                 {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            Book b = new Book();
-                            b.BookId = reader.GetInt32(0);
-                            b.AuthorID = reader.GetInt32(1);
-                            b.Title = reader.GetString(2);
+                    connection.Open();
+                    string query = "DELETE FROM Book WHERE Title = '" + BookListBox.SelectedItem + "' ";
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.ExecuteNonQuery();
+                    MessageBox.Show("The Book has been deleted!");
 
-                            BookIdTextBox.Text = b.BookId.ToString();
-                            AuthorIdTextBox.Text = b.AuthorID.ToString();
-                            TitleTextBox.Text = b.Title;
-                        }
+                    GetAuthorData();
+                    for (int i = 0; i < BookListBox.Items.Count; i++)
+                    {
+                        BookListBox.Items.RemoveAt(0);
                     }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
                 }
             }
         }
