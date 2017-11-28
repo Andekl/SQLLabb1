@@ -72,7 +72,7 @@ namespace SQLLabb1
                         b.AuthorID = reader.GetInt32(1);
                         b.Title = reader.GetString(2);
 
-                        BookListBox.Items.Add(b.Title);
+                        BookListBox.Items.Add(b); //(b.title) innan vi lade till display member path
                     }
                 }
             }
@@ -86,7 +86,7 @@ namespace SQLLabb1
             var aa = sender as ListBox;
             if (aa.SelectedItem != null)
             {
-                var author = aa.SelectedItem.ToString();
+               var author = aa.SelectedItem.ToString();
                 string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
@@ -242,9 +242,9 @@ namespace SQLLabb1
                 try
                 {
                     connection.Open();
-                    string query = "INSERT INTO Author (Name, Nationality) VALUES ( @Name, @Nationality)";
+                    string query = "INSERT INTO Author (Name, Nationality) VALUES (@Name, @Nationality)";
                     SqlCommand command = new SqlCommand(query, connection);
-                    ///command.Parameters.AddWithValue("AuthorId", IdTextBox.Text);
+                    //command.Parameters.AddWithValue("AuthorId", IdTextBox.Text);
                     command.Parameters.AddWithValue("Name", AuthorNameTextBox.Text);
                     command.Parameters.AddWithValue("Nationality", NationalityTextBox.Text);
                     command.ExecuteNonQuery();
@@ -253,7 +253,6 @@ namespace SQLLabb1
                     //MaxAuthorValue();
                     AuthorListBox.Items.Clear();
                     GetAuthorData();
-
 
                     //while (AuthorListBox.Items.Count > 0)
                     //{
@@ -279,21 +278,22 @@ namespace SQLLabb1
                 {
                     connection.Open();
 
-                    string query = "INSERT INTO Book (BookId, AuthorID, Title) VALUES (@BookId, @AuthorID, @Title)";
+                    string query = "INSERT INTO Book (AuthorID, Title) VALUES (@AuthorID, @Title)";
                     SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("BookId", BookIdTextBox.Text);
+                    //command.Parameters.AddWithValue("BookId", BookIdTextBox.Text);
                     command.Parameters.AddWithValue("AuthorID", AuthorIdTextBox.Text);
                     command.Parameters.AddWithValue("Title", TitleTextBox.Text);
                     command.ExecuteNonQuery();
                     MessageBox.Show("A new Book has been created!");
-                    MaxBookValue();
+                    // MaxBookValue();
 
+                    BookListBox.Items.Clear();
                     GetBookData();
 
-                    for (int i = 0; i < BookListBox.Items.Count; i++)
-                    {
-                        BookListBox.Items.RemoveAt(0);
-                    }
+                    //for (int i = 0; i < BookListBox.Items.Count; i++)
+                    //{
+                    //    BookListBox.Items.RemoveAt(0);
+                    //}
 
                 }
                 catch (Exception ex)

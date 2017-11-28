@@ -8,7 +8,7 @@
         Title="MainWindow" Height="517.308" Width="730.128">
     <Grid>
         <ListBox x:Name="AuthorListBox" HorizontalAlignment="Left" Height="173" Margin="76,21,0,0" VerticalAlignment="Top" Width="240" SelectionChanged="AuthorListBox_SelectionChanged" IsSynchronizedWithCurrentItem="False" DisplayMemberPath="Name"/>
-        <ListBox x:Name="BookListBox" HorizontalAlignment="Left" Height="173" Margin="409,21,0,0" VerticalAlignment="Top" Width="240" SelectionChanged="BookListBox_SelectionChanged"/>
+        <ListBox x:Name="BookListBox" HorizontalAlignment="Left" Height="173" Margin="409,21,0,0" VerticalAlignment="Top" Width="240" SelectionChanged="BookListBox_SelectionChanged" DisplayMemberPath="Title"/>
         <TextBox x:Name="IdTextBox" HorizontalAlignment="Left" Height="31" Margin="76,218,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" IsEnabled="False"/>
         <TextBox x:Name="BookIdTextBox" HorizontalAlignment="Left" Height="31" Margin="409,218,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" IsEnabled="False"/>
         <Button x:Name="SaveChangesButton" Content="SAVE AUTHOR&#xD;&#xA;CHANGES" HorizontalAlignment="Left" Margin="125,370,0,0" VerticalAlignment="Top" Width="113" Height="50" Click="SaveChangesButton_Click" IsEnabled="False"/>
