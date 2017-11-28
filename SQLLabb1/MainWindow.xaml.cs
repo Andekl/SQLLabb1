@@ -72,12 +72,12 @@ namespace SQLLabb1
                         b.AuthorID = reader.GetInt32(1);
                         b.Title = reader.GetString(2);
 
-                        BookListBox.Items.Add(b); 
+                        BookListBox.Items.Add(b);
                     }
                 }
             }
         }
-        
+
         private void AuthorListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DeleteAuthortButton.IsEnabled = true;
@@ -92,6 +92,10 @@ namespace SQLLabb1
                 AuthorNameTextBox.Text = author.Name;
                 NationalityTextBox.Text = author.Nationality;
             }
+            Author a = new Author();
+            Book b = new Book();
+            if (a.Id != b.AuthorID)
+                DeleteBookButton.IsEnabled = false;
         }
         private void BookListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
