@@ -80,34 +80,51 @@ namespace SQLLabb1
 
         private void AuthorListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            #region OLd code
+            //DeleteAuthortButton.IsEnabled = true;
+            //SaveChangesButton.IsEnabled = true;
+
+            //var aa = sender as ListBox;
+            //if (aa.SelectedItem != null)
+            //{
+            //   var author = aa.SelectedItem.ToString();
+            //    string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            //    using (SqlConnection con = new SqlConnection(connectionString))
+            //    {
+            //        con.Open();
+            //        var query = "SELECT * FROM Author where Name = '" + author + "'";
+            //        using (SqlCommand cmd = new SqlCommand(query, con))
+            //        using (SqlDataReader reader = cmd.ExecuteReader())
+            //        {
+            //            while (reader.Read())
+            //            {
+            //                Author a = new Author();
+            //                // a.Id = reader.GetInt32(0);
+            //                //a.Name = reader.GetString(1);
+            //                //a.Nationality = reader.GetString(2);
+            //                a.Id = Convert.ToInt32(reader[0]);
+            //                a.Name = Convert.ToString(reader[1]);
+            //                a.Nationality = Convert.ToString(reader[2]);
+
+            //                IdTextBox.Text = a.Id.ToString();
+            //                AuthorNameTextBox.Text = a.Name;
+            //                NationalityTextBox.Text = a.Nationality;
+            //            }
+            //        }
+            //    }
+            //}
+#endregion
             DeleteAuthortButton.IsEnabled = true;
             SaveChangesButton.IsEnabled = true;
 
             var aa = sender as ListBox;
             if (aa.SelectedItem != null)
             {
-               var author = aa.SelectedItem.ToString();
-                string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Library;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-                using (SqlConnection con = new SqlConnection(connectionString))
-                {
-                    con.Open();
-                    var query = "SELECT * FROM Author where Name = '" + author + "'";
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            Author a = new Author();
-                            a.Id = reader.GetInt32(0);
-                            a.Name = reader.GetString(1);
-                            a.Nationality = reader.GetString(2);
+                var author = aa.SelectedItem as Author;
 
-                            IdTextBox.Text = a.Id.ToString();
-                            AuthorNameTextBox.Text = a.Name;
-                            NationalityTextBox.Text = a.Nationality;
-                        }
-                    }
-                }
+                IdTextBox.Text = author.Id.ToString();
+                AuthorNameTextBox.Text = author.Name;
+                NationalityTextBox.Text = author.Nationality;
             }
         }
         private void BookListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
