@@ -77,7 +77,7 @@ namespace SQLLabb1
                 }
             }
         }
-
+        //wow
         private void AuthorListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             #region OLd code
